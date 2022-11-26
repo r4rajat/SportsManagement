@@ -1,5 +1,6 @@
 import constant
 from config import mongo
+from bson.objectid import ObjectId
 
 
 def login(username, password):
@@ -82,3 +83,40 @@ def get_all_events():
         return True, data
     else:
         return False, None
+
+
+def get_event(_id):
+    _id = ObjectId(_id)
+    db = mongo['sports-management']
+    coll = db['events']
+    try:
+        event = coll.find_one({
+            constant.ID: _id
+        })
+    except Exception as e:
+        return Exception(e)
+
+    return event
+
+
+def update_event(_id, category, timing, ground):
+    _id = ObjectId(_id)
+    db = mongo['sports-management']
+    coll = db['events']
+    filter = {
+        constant.ID: _id
+    }
+    new_values = { "$set": {
+        constant.CATEGORY: category,
+        constant.TIMING: timing,
+        constant.GROUND: ground
+    }}
+    try:
+        updated = coll.update_one(filter, new_values)
+    except Exception as e:
+        return Exception(e)
+
+    if updated is not None:
+        return True
+    else:
+        return False

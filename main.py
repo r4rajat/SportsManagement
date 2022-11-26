@@ -2,7 +2,6 @@ import constant
 from config import app
 from flask import render_template, request, redirect, make_response
 import functions
-from datetime import datetime
 
 
 @app.route('/')
@@ -73,6 +72,25 @@ def add_event():
         return render_template("admin.html", allEvents=allEvents)
     else:
         return render_template("admin.html")
+
+
+@app.route('/update_event/<_id>', methods=['GET', 'POST'])
+def update_event(_id):
+    if request.method == 'POST':
+        category = request.form['category']
+        timing = request.form['time']
+        ground = request.form['ground']
+        functions.update_event(_id, category, timing, ground)
+        status, data = functions.get_all_events()
+        allEvents = []
+        for event in data:
+            event[constant.ID] = str(event[constant.ID])
+            allEvents.append(event)
+        resp = make_response(render_template("admin.html", allEvents=allEvents))
+        return resp
+
+    event = functions.get_event(_id)
+    return render_template("update.html", event=event)
 
 
 if __name__ == '__main__':
