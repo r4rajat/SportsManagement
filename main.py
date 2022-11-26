@@ -16,7 +16,12 @@ def login():
     password = request.form['password']
 
     if username == 'admin' and password == 'admin':
-        resp = make_response(render_template("admin.html"))
+        status, data = functions.get_all_events()
+        allEvents = []
+        for event in data:
+            event[constant.ID] = str(event[constant.ID])
+            allEvents.append(event)
+        resp = make_response(render_template("admin.html", allEvents=allEvents))
         resp.set_cookie(constant.USER_ID, "admin")
         return resp
 
@@ -63,6 +68,7 @@ def add_event():
         status, data = functions.get_all_events()
         allEvents = []
         for event in data:
+            event[constant.ID] = str(event[constant.ID])
             allEvents.append(event)
         return render_template("admin.html", allEvents=allEvents)
     else:

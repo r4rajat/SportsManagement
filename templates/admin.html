@@ -8,9 +8,9 @@
             <div class="mb-3">
               <label for="category" class="form-label">Match Category</label>
               <select class="form-control" id="category" name="category">
-                  <option value="cricket">Cricket</option>
-                  <option value="football">Football</option>
-                  <option value="badminton">Badminton</option>
+                  <option value="Cricket">Cricket</option>
+                  <option value="Football">Football</option>
+                  <option value="Badminton">Badminton</option>
               </select>
             </div>
             <div class="mb-3">
@@ -37,7 +37,7 @@
                     <table class="table">
                         <thead>
                           <tr>
-                            <th scope="col">SNo</th>
+                            <th scope="col">Event ID</th>
                             <th scope="col">Category</th>
                             <th scope="col">Timings</th>
                             <th scope="col">Ground</th>
@@ -48,7 +48,7 @@
                         <tbody>
               {% for event in allEvents %}
               <tr>
-                <th scope="row">{{loop.index}}</th>
+                <th scope="row">{{event._id}}</th>
                 <td>{{event.CATEGORY}}</td>
                 <td>{{event.TIMING}}</td>
                 <td>{{event.GROUND}}</td>
