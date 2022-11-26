@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/bootstrap.min.css", media="screen">
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 body, html {
@@ -40,7 +41,12 @@ padding: 16px;
 <input type="submit" value="LOGIN">
 </form></p>
 <p>Want to register?<span style="opacity: 7.0; color:black"><a href="http://localhost:8080/register">&nbsp; Register</a></span></p>
-
+{% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }} </p>
+{% endif %}
+{% if message %}
+    <p class="message"> {{ message }} </p>
+{% endif %}
 
 </div>
 </body>
