@@ -20,7 +20,7 @@ def login():
         for event in data:
             event[constant.ID] = str(event[constant.ID])
             allEvents.append(event)
-        resp = make_response(render_template("admin.html", allEvents=allEvents))
+        resp = make_response(render_template("admin.html", allEvents=allEvents, user_id="Admin"))
         resp.set_cookie(constant.USER_ID, "admin")
         return resp
 
