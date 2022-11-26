@@ -26,8 +26,10 @@ def login():
 
     status, data = functions.login(username, password)
     if status is True:
-        message = "Login Successfully"
-        resp = make_response(render_template("index.html", message=message))
+        events = functions.get_all_events_of_category(data[constant.SPORT])
+        resp = make_response(render_template("user.html", user=data,
+                                             user_id=data[constant.FULL_NAME],
+                                             category=events))
         resp.set_cookie(constant.USER_ID, str(data[constant.ID]))
         return resp
     else:
@@ -51,8 +53,7 @@ def add_user():
     sport = request.form['sport']
     status = functions.register(full_name, username, password, email, gender, age, sport)
     if status is True:
-        render_template('register.html', message="User Registered")
-        return redirect('home')
+        return redirect('/')
     else:
         return render_template('register.html', error=status)
 
@@ -102,6 +103,17 @@ def delete_event(_id):
         event[constant.ID] = str(event[constant.ID])
         allEvents.append(event)
     resp = make_response(render_template("admin.html", allEvents=allEvents))
+    return resp
+
+
+@app.route('/register_user_event/<user_id>/<_id>')
+def register_user_to_event(user_id, _id):
+    functions.register_user_to_event(user_id, _id)
+    data = functions.get_user_details(user_id)
+    events = functions.get_all_events_of_category(data[constant.SPORT])
+    resp = make_response(render_template("user.html", user=data,
+                                         user_id=data[constant.FULL_NAME],
+                                         category=events))
     return resp
 
 
