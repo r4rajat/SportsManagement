@@ -103,7 +103,7 @@ def update_event(_id, category, timing, ground):
     _id = ObjectId(_id)
     db = mongo['sports-management']
     coll = db['events']
-    filter = {
+    _filter = {
         constant.ID: _id
     }
     new_values = { "$set": {
@@ -112,11 +112,28 @@ def update_event(_id, category, timing, ground):
         constant.GROUND: ground
     }}
     try:
-        updated = coll.update_one(filter, new_values)
+        updated = coll.update_one(_filter, new_values)
     except Exception as e:
         return Exception(e)
 
     if updated is not None:
+        return True
+    else:
+        return False
+
+
+def delete_event(_id):
+    _id = ObjectId(_id)
+    db = mongo['sports-management']
+    coll = db['events']
+    try:
+        deleted = coll.delete_one({
+            constant.ID: _id
+        })
+    except Exception as e:
+        return Exception(e)
+
+    if deleted is not None:
         return True
     else:
         return False

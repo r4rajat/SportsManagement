@@ -93,5 +93,17 @@ def update_event(_id):
     return render_template("update.html", event=event)
 
 
+@app.route('/delete_event/<_id>')
+def delete_event(_id):
+    functions.delete_event(_id)
+    status, data = functions.get_all_events()
+    allEvents = []
+    for event in data:
+        event[constant.ID] = str(event[constant.ID])
+        allEvents.append(event)
+    resp = make_response(render_template("admin.html", allEvents=allEvents))
+    return resp
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
