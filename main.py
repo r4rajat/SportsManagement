@@ -1,6 +1,8 @@
+import constant
 from config import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, make_response
 import functions
+from datetime import datetime
 
 
 @app.route('/')
@@ -12,10 +14,18 @@ def index():
 def login():
     username = request.form['username']
     password = request.form['password']
-    status = functions.login(username, password)
+
+    if username == 'admin' and password == 'admin':
+        resp = make_response(render_template("admin.html"))
+        resp.set_cookie(constant.USER_ID, "admin")
+        return resp
+
+    status, data = functions.login(username, password)
     if status is True:
         message = "Login Successfully"
-        return render_template("index.html", message=message)
+        resp = make_response(render_template("index.html", message=message))
+        resp.set_cookie(constant.USER_ID, str(data[constant.ID]))
+        return resp
     else:
         error = "Login Failed"
         return render_template("index.html", error=error)
@@ -41,6 +51,22 @@ def add_user():
         return redirect('home')
     else:
         return render_template('register.html', error=status)
+
+
+@app.route('/add_event', methods=['POST'])
+def add_event():
+    category = request.form['category']
+    timing = request.form['time']
+    ground = request.form['ground']
+    status = functions.add_event(category, timing, ground)
+    if status is True:
+        status, data = functions.get_all_events()
+        allEvents = []
+        for event in data:
+            allEvents.append(event)
+        return render_template("admin.html", allEvents=allEvents)
+    else:
+        return render_template("admin.html")
 
 
 if __name__ == '__main__':

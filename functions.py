@@ -14,11 +14,11 @@ def login(username, password):
 
     if data is not None:
         if password == data[constant.PASSWORD]:
-            return True
+            return True, data
         else:
-            return False
+            return False, None
     else:
-        return False
+        return False, None
 
 
 def register(full_name, username, password, email, gender, age, sport):
@@ -50,3 +50,35 @@ def register(full_name, username, password, email, gender, age, sport):
         return True
     else:
         return False
+
+
+def add_event(category, timing, ground):
+    db = mongo['sports-management']
+    coll = db['events']
+    try:
+        inserted = coll.insert_one({
+            constant.CATEGORY: category,
+            constant.TIMING: timing,
+            constant.GROUND: ground
+        })
+    except Exception as e:
+        return Exception(e)
+
+    if inserted is not None:
+        return True
+    else:
+        return False
+
+
+def get_all_events():
+    db = mongo['sports-management']
+    coll = db['events']
+    try:
+        data = coll.find({})
+    except Exception as e:
+        return Exception(e)
+
+    if data is not None:
+        return True, data
+    else:
+        return False, None

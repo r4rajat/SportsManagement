@@ -1,3 +1,5 @@
 Flask
 Flask-RESTFul
 PyMongo
+Flask-SQLAlchemy
+SQLAlchemy
