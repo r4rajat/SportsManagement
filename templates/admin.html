@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Admin Home{% endblock title %}
+{% block title %} Admin Home {% endblock title %}
 {% block body %}
 
     <div class="container my-3">
@@ -41,6 +41,7 @@
                             <th scope="col">Category</th>
                             <th scope="col">Timings</th>
                             <th scope="col">Ground</th>
+                              <th scope="col">Registrations</th>
                             <th scope="col">Actions</th>
                           </tr>
                         </thead>
@@ -52,6 +53,7 @@
                 <td>{{event.CATEGORY}}</td>
                 <td>{{event.TIMING}}</td>
                 <td>{{event.GROUND}}</td>
+                  <td>{{ event.REGISTRATIONS }}</td>
                 <td>
                   <a href="/update_event/{{event._id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Update</a>
                   <a href="/delete_event/{{event._id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</a>

@@ -60,7 +60,8 @@ def add_event(category, timing, ground):
         inserted = coll.insert_one({
             constant.CATEGORY: category,
             constant.TIMING: timing,
-            constant.GROUND: ground
+            constant.GROUND: ground,
+            constant.REGISTRATIONS: 0
         })
     except Exception as e:
         return Exception(e)
